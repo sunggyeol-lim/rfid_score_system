@@ -1,0 +1,14 @@
+{
+  "name": "rfid-score-system",
+  "version": "1.0.0",
+  "description": "No-Coding SDLC Automation Framework Project",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint \"src/**/*.js\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
