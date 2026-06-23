@@ -247,6 +247,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
+      fetchCurrentTheme();
       initThemeSwitcher();
       initScoreSelector();
       initInputModeToggler();
@@ -255,21 +256,54 @@
       document.getElementById('btn-nfc-scan').addEventListener('click', submitScore);
     });
 
+    // 서버 전역 테마 상태 가져오기
+    async function fetchCurrentTheme() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/theme`);
+        const data = await res.json();
+        setThemeLocal(data.theme);
+      } catch (err) {
+        console.error('Failed to load current theme:', err);
+      }
+    }
+
     // 1. 테마 셀렉터 초기화
     function initThemeSwitcher() {
       const buttons = document.querySelectorAll('.theme-btn');
       buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
           const theme = btn.dataset.theme;
-          currentTheme = theme;
           
-          // Body 테마 클래스 변환
-          document.body.className = `theme-${theme} mobile-body`;
-          document.getElementById('app-mascot').textContent = THEME_ICONS[theme];
-          
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
+          // 1. 로컬 화면 적용
+          setThemeLocal(theme);
+
+          // 2. 서버로 동기화 전송
+          try {
+            await fetch(`${API_BASE_URL}/api/theme`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ theme: theme })
+            });
+          } catch (err) {
+            console.error('Failed to sync theme to server:', err);
+          }
         });
+      });
+    }
+
+    // 로컬 화면 테마 변경 유틸
+    function setThemeLocal(theme) {
+      currentTheme = theme;
+      document.body.className = `theme-${theme} mobile-body`;
+      document.getElementById('app-mascot').textContent = THEME_ICONS[theme];
+      
+      const buttons = document.querySelectorAll('.theme-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.theme === theme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
       });
     }
 

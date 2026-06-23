@@ -29,42 +29,72 @@ let currentTheme = 'honeybee';
 
 // 2. 초기화 및 이벤트 리스너 등록
 document.addEventListener('DOMContentLoaded', () => {
+  fetchCurrentTheme();
   initThemeSwitcher();
   fetchStudents();
   initSocket();
   initRegisterModal();
 });
 
+// 서버의 현재 전역 테마 패치
+async function fetchCurrentTheme() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/theme`);
+    const data = await res.json();
+    setThemeLocal(data.theme);
+  } catch (err) {
+    console.error('Failed to fetch current theme:', err);
+  }
+}
+
 // 3. 테마 스위처 설정 (모듈화)
 function initThemeSwitcher() {
   const buttons = document.querySelectorAll('.theme-btn');
   buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       const selectedTheme = btn.dataset.theme;
-      setTheme(selectedTheme);
       
-      // 버튼 활성화 갱신
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      // 1. 로컬 테마 즉각 적용
+      setThemeLocal(selectedTheme);
+
+      // 2. 서버로 전역 테마 변경 요청 (이후 다른 클라이언트로 소켓 전파됨)
+      try {
+        await fetch(`${API_BASE_URL}/api/theme`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ theme: selectedTheme })
+        });
+      } catch (err) {
+        console.error('Failed to sync theme to server:', err);
+      }
     });
   });
 }
 
-function setTheme(themeId) {
+// 로컬 화면의 테마만 변경하는 함수 (무한 루프 방지)
+function setThemeLocal(themeId) {
   if (!THEME_CONFIGS[themeId]) return;
   
   currentTheme = themeId;
   
-  // 1. Body 클래스 교체로 CSS 변수들 일괄 적용
+  // 1. Body 클래스 교체
   document.body.className = `theme-${themeId}`;
   
-  // 2. 상단 타이틀 아이콘 및 마스코트 교체
+  // 2. 타이틀 아이콘 교체
   document.querySelector('.theme-icon').textContent = THEME_CONFIGS[themeId].icon;
   
-  // 3. 챔피언 및 토스트 마스코트 리소스 업데이트
+  // 3. 버튼 활성화 상태 강제 동기화
+  const buttons = document.querySelectorAll('.theme-btn');
+  buttons.forEach(btn => {
+    if (btn.dataset.theme === themeId) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // 4. 챔피언 마스코트 업데이트
   updateChampionAvatar();
-  
-  console.log(`🎨 테마가 전환되었습니다: ${themeId}`);
 }
 
 // 4. API로부터 학생 목록 조회 및 랭킹 렌더링
@@ -160,6 +190,12 @@ function initSocket() {
     // 학생 리스트에 추가 후 재배치
     studentsList.push(data);
     sortAndReRender();
+  });
+
+  // 테마 전역 변경 이벤트 수신
+  socket.on('theme_changed', (data) => {
+    console.log('🎨 Global theme update received:', data.theme);
+    setThemeLocal(data.theme);
   });
 }
 

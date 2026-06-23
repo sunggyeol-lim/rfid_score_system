@@ -21,6 +21,26 @@ const io = new Server(server, {
   }
 });
 
+// 전역 테마 상태 (기본: honeybee)
+let currentTheme = 'honeybee';
+
+// 0. 테마 상태 조회 및 변경 API
+app.get('/api/theme', (req, res) => {
+  res.json({ theme: currentTheme });
+});
+
+app.post('/api/theme', (req, res) => {
+  const { theme } = req.body;
+  if (!theme) {
+    return res.status(400).json({ error: "theme parameter is required." });
+  }
+  currentTheme = theme;
+  // 전체 소켓 클라이언트에 실시간 테마 변경 브로드캐스팅
+  io.emit('theme_changed', { theme: currentTheme });
+  console.log(`🎨 Global Theme Switched to: ${currentTheme}`);
+  res.json({ success: true, theme: currentTheme });
+});
+
 // 1. 전체 학생 랭킹 조회 API
 app.get('/api/students', (req, res) => {
   try {

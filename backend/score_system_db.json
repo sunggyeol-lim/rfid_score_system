@@ -13,7 +13,7 @@
     {
       "rfid_id": "I9J0K1L2",
       "name": "박도윤 (우주반)",
-      "score": 0
+      "score": 10
     },
     {
       "rfid_id": "M3N4O5P6",
@@ -32,6 +32,12 @@
       "rfid_id": "A1B2C3D4",
       "score_added": 10,
       "timestamp": "2026-06-23T06:13:31.675Z"
+    },
+    {
+      "id": 1782196584995,
+      "rfid_id": "I9J0K1L2",
+      "score_added": 10,
+      "timestamp": "2026-06-23T06:36:24.995Z"
     }
   ]
 }
