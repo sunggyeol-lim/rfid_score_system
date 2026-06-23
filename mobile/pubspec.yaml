@@ -1,0 +1,23 @@
+name: rfid_score_mobile
+description: "Flutter NFC Score Input Application with multi-theme support"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.1               # 백엔드 REST API 통신용
+  nfc_manager: ^3.3.0        # [2단계] 내장 NFC 센서 제어용
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,109 @@
+/* ==========================================
+   RFID Score System Dashboard Theme Modules
+   ========================================== */
+
+/* ==========================================
+   1. 🐝 꿀벌반 테마 (Honeybee Theme)
+   ========================================== */
+.theme-honeybee {
+  /* Colors */
+  --primary-color: #f5b041;
+  --bg-gradient: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%);
+  --text-color: #5d4037;
+  --text-gradient: linear-gradient(to right, #873600, #b7950b);
+  --border-color: rgba(245, 176, 65, 0.25);
+  --card-bg-glass: rgba(253, 242, 233, 0.7);
+  --shadow-color: rgba(245, 176, 65, 0.25);
+  --theme-btn-active-text: #fff;
+  --toast-bg: #fffbf0;
+  
+  /* Fonts */
+  --font-body: 'Gowun Dodum', sans-serif;
+}
+
+/* 꿀벌 테마 추가 스타일 */
+.theme-honeybee .champion-card {
+  border-radius: 40px 10px 40px 10px; /* 벌집 모양 연상 */
+}
+
+/* ==========================================
+   2. 🐬 조개반 테마 (Ocean Theme)
+   ========================================== */
+.theme-ocean {
+  /* Colors */
+  --primary-color: #2980b9;
+  --bg-gradient: linear-gradient(135deg, #e8f8f5 0%, #d4e6f1 100%);
+  --text-color: #1a5276;
+  --text-gradient: linear-gradient(to right, #1f618d, #117a65);
+  --border-color: rgba(41, 128, 185, 0.25);
+  --card-bg-glass: rgba(235, 245, 251, 0.75);
+  --shadow-color: rgba(41, 128, 185, 0.25);
+  --theme-btn-active-text: #fff;
+  --toast-bg: #f4fafd;
+
+  /* Fonts */
+  --font-body: 'Gowun Dodum', sans-serif;
+}
+
+/* 바다 테마 추가 스타일 (물결 느낌) */
+.theme-ocean .champion-card {
+  border-radius: 50% 50% 30px 30px; /* 동그란 아쿠아 돔 */
+}
+
+/* ==========================================
+   3. 🎈 새싹반 테마 (Kids/Playground Theme)
+   ========================================== */
+.theme-kids {
+  /* Colors */
+  --primary-color: #ec7063;
+  --bg-gradient: linear-gradient(135deg, #fdf2e9 0%, #fadbd8 100%);
+  --text-color: #78281f;
+  --text-gradient: linear-gradient(to right, #922b21, #d35400);
+  --border-color: rgba(236, 112, 99, 0.25);
+  --card-bg-glass: rgba(253, 242, 233, 0.8);
+  --shadow-color: rgba(236, 112, 99, 0.25);
+  --theme-btn-active-text: #fff;
+  --toast-bg: #fffaf9;
+
+  /* Fonts (어린이집 느낌의 손글씨) */
+  --font-body: 'Nanum Pen Script', cursive;
+}
+
+.theme-kids body {
+  font-size: 1.4rem; /* 얇고 작은 손글씨 보정 */
+}
+
+.theme-kids .main-title {
+  font-size: 2.5rem;
+}
+
+.theme-kids .champion-card {
+  border-radius: 30px;
+  border-style: dashed; /* 아기자기하게 점선 */
+}
+
+/* ==========================================
+   4. 테마별 획득 파티클 디자인 (CSS-Only Visuals)
+   ========================================== */
+
+/* 꿀벌 파티클 */
+.particle-bee::after {
+  content: '🐝';
+  font-size: 1.5rem;
+}
+
+/* 물방울 파티클 */
+.particle-bubble {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(41, 128, 185, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.5);
+}
+
+/* 풍선 파티클 */
+.particle-balloon::after {
+  content: '🎈';
+  font-size: 1.8rem;
+}

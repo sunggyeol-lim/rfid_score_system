@@ -1,0 +1,37 @@
+{
+  "students": [
+    {
+      "rfid_id": "A1B2C3D4",
+      "name": "김민준 (꿀벌반)",
+      "score": 10
+    },
+    {
+      "rfid_id": "E5F6G7H8",
+      "name": "이서아 (조개반)",
+      "score": 0
+    },
+    {
+      "rfid_id": "I9J0K1L2",
+      "name": "박도윤 (우주반)",
+      "score": 0
+    },
+    {
+      "rfid_id": "M3N4O5P6",
+      "name": "최지우 (새싹반)",
+      "score": 0
+    },
+    {
+      "rfid_id": "TEST_1782195211684",
+      "name": "테스트 학생",
+      "score": 0
+    }
+  ],
+  "score_logs": [
+    {
+      "id": 1782195211675,
+      "rfid_id": "A1B2C3D4",
+      "score_added": 10,
+      "timestamp": "2026-06-23T06:13:31.675Z"
+    }
+  ]
+}

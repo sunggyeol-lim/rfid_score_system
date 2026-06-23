@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐝 실시간 RFID 스코어보드 대시보드</title>
+  <!-- Google Fonts 로드 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Nanum+Pen+Script&family=Gowun+Dodum&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind를 쓰지 않고 바닐라 CSS로 극강의 디자인을 위해 style.css와 theme.css 연동 -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body class="theme-honeybee"> <!-- 기본 테마: 꿀벌 -->
+
+  <!-- 실시간 파티클 애니메이션 컨테이너 -->
+  <div id="particle-container"></div>
+
+  <!-- 대시보드 메인 레이아웃 -->
+  <main class="dashboard-container">
+    
+    <!-- 상단 헤더 영역 -->
+    <header class="dashboard-header">
+      <div class="logo-area">
+        <span class="theme-icon">🐝</span>
+        <h1 class="main-title">RFID 실시간 스코어보드</h1>
+      </div>
+      
+      <!-- 테마 셀렉터 컨트롤 (모듈화) -->
+      <div class="theme-selector">
+        <button class="theme-btn active" data-theme="honeybee">🐝 꿀벌반</button>
+        <button class="theme-btn" data-theme="ocean">🐬 조개반</button>
+        <button class="theme-btn" data-theme="kids">🎈 새싹반</button>
+      </div>
+    </header>
+
+    <!-- 실시간 점수 이벤트 발생 팝업 알림 -->
+    <section id="realtime-toast" class="toast-hidden">
+      <div class="toast-content">
+        <div class="toast-avatar" id="toast-avatar">🍯</div>
+        <div class="toast-text">
+          <h3 id="toast-student-name">김민준</h3>
+          <p><span id="toast-added-score">+10</span> 점을 획득했습니다!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 메인 대시보드 그리드 -->
+    <div class="dashboard-grid">
+      
+      <!-- 1등 하이라이트 영역 -->
+      <section class="podium-section">
+        <h2 class="section-title">🏆 오늘의 챔피언</h2>
+        <div class="champion-card" id="champion-card">
+          <div class="champion-crown">👑</div>
+          <div class="champion-avatar" id="champ-avatar">🐝</div>
+          <div class="champion-info">
+            <h3 id="champ-name">대기 중...</h3>
+            <div class="champ-score"><span id="champ-score-val">0</span> <small>Points</small></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 랭킹 리스트 영역 -->
+      <section class="ranking-section">
+        <h2 class="section-title">📊 전체 실시간 랭킹</h2>
+        <div class="ranking-list" id="ranking-list">
+          <!-- JS로 동적으로 생성되는 랭킹 카드들 -->
+          <div class="loading-state">학생 데이터를 로드하는 중...</div>
+        </div>
+      </section>
+      
+    </div>
+
+    <!-- 미등록 RFID 태그 감지 시 팝업 모달 -->
+    <div id="register-modal" class="modal-hidden">
+      <div class="modal-card">
+        <h2>⚠️ 미등록 카드 감지</h2>
+        <p>스캔된 카드 ID: <strong id="modal-rfid-id">A1B2C3D4</strong></p>
+        <p>이 카드를 사용할 학생의 이름을 입력해 주세요.</p>
+        <div class="form-group">
+          <input type="text" id="reg-student-name" placeholder="학생 이름 입력 (예: 홍길동)">
+        </div>
+        <div class="modal-actions">
+          <button id="btn-cancel-reg" class="btn-secondary">취소</button>
+          <button id="btn-submit-reg" class="btn-primary">등록 완료</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Socket.io CDN 로드 -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
